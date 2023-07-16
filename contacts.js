@@ -41,6 +41,7 @@ export const removeContact = async (contactId) => {       //Возвращает
     if (userId.length) {
       const usersUpdate = users.filter(item => item.id !== contactId);
       await fs.writeFile(contactsPath, JSON.stringify(usersUpdate));
+      console.log(userId[0]);
       return userId[0]
     } else {
       console.log(null);
