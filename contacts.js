@@ -4,11 +4,9 @@ import { nanoid } from 'nanoid';
 
 const contactsPath = path.resolve('db', 'contacts.json');
 
-export const listContacts = async () => {         // Возвращает массив контактов.
+export const listContacts = async () => { 
   try {
     const users = JSON.parse(await fs.readFile(contactsPath, 'utf8'));
-                                //const result = await fs.readFile(filePath);
-                                //const users = result.toString()
     console.log(users);
     return users
   } catch (error) {
@@ -17,43 +15,41 @@ export const listContacts = async () => {         // Возвращает мас
   }
 }
 
-export const getContactById = async (contactId) => {      //Возвращает объект контакта с таким id. Возвращает null, если объект с таким id не найден.
+export const getContactById = async (contactId) => { 
   try {
     const users = JSON.parse(await fs.readFile(contactsPath, 'utf8'));
-    const userId = users.filter(item => item.id === contactId);
-    if (userId.length) {
-      console.log(userId[0]);
-      return userId[0]
-    } else {
+    const userById = users.filter(item => item.id === contactId);
+    if (!userById.length) {
       console.log(null);
       return null
     }
+    console.log(userById[0]);
+    return userById[0]
   } catch (error) {
     console.log(error.stack);
     return error.stack
   }
 }
 
-export const removeContact = async (contactId) => {       //Возвращает объект удаленного контакта. Возвращает null, если объект с таким id не найден.
+export const removeContact = async (contactId) => { 
   try {
     const users = JSON.parse(await fs.readFile(contactsPath, 'utf8'));
-    const userId = users.filter(item => item.id === contactId);
-    if (userId.length) {
-      const usersUpdate = users.filter(item => item.id !== contactId);
-      await fs.writeFile(contactsPath, JSON.stringify(usersUpdate));
-      console.log(userId[0]);
-      return userId[0]
-    } else {
+    const userById = users.filter(item => item.id === contactId);
+    if (!userById.length) {
       console.log(null);
       return null
     }
+    const usersUpdate = users.filter(item => item.id !== contactId);
+    await fs.writeFile(contactsPath, JSON.stringify(usersUpdate));
+    console.log(userById[0]);
+    return userById[0]
   } catch (error) {
     console.log(error.stack);
     return error.stack
   }
 }
 
-export const addContact = async (name, email, phone) => {         //Возвращает объект добавленного контакта.
+export const addContact = async (name, email, phone) => { 
   try {
     const item = {
       id: nanoid(),
